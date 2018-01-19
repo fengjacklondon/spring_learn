@@ -74,10 +74,18 @@
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jsp-2.1</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+        -->
     </dependencies>
 
     <build>
         <plugins>
+            <!-- jetty插件 -->
             <!-- jetty插件 -->
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
@@ -86,7 +94,7 @@
                 <configuration>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>8000</port>
+                            <port>8089</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
