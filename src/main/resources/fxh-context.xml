@@ -13,8 +13,6 @@
        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
-
-
     <!--1 扫描类包，将标注Spring 注解的类自动转化为bean,同时完成bean的注入-->
     <context:component-scan base-package="com.fxh.dao"/>
     <context:component-scan base-package="com.fxh.service"/>
@@ -22,7 +20,7 @@
     <!-- 2 定义一个dbcp实现的数据源-->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
         destroy-method="close"
-          p:driverClassName="com.mysq.jdbc.Driver"
+          p:driverClassName="com.mysql.jdbc.Driver"
           p:url="jdbc:mysql://localhost:4706/sampledb"
           p:username="root"
           p:password="Wewechat"
@@ -33,11 +31,15 @@
         p:dataSource-ref="dataSource"
     />
 
+    <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+        p:dataSource-ref="dataSource"></bean>
+
     <!-- 4 通过AOP配置提供事务，让service包下所有Bean的-->
     <aop:config proxy-target-class="true">
         <aop:pointcut id="serviceMehtod" 
             expression="(execution(* com.fxh.service..*(..))) and 
-            (@annotation(org.springframework.transaction.annotation.Transactional)" />
+            (@annotation(org.springframework.transaction.annotation.Transactional))" />
     
         <aop:advisor  pointcut-ref="serviceMehtod" advice-ref="txAdvice"/>
                 
@@ -46,5 +48,7 @@
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
             <tx:attributes>
                     <tx:method name="*"/>
+                    <tx:method name="*"/>
             </tx:attributes>
+    </tx:advice>
 </beans>

@@ -5,11 +5,15 @@ import com.fxh.dao.UserDao;
 import com.fxh.domin.LoginLog;
 import com.fxh.domin.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+@Service
 public class UserService {
     private UserDao userDao;
     private LoginLogDao loginLogDao;
+
+
+
 
     @Autowired
     public void setUserDao(UserDao userDao){
@@ -21,8 +25,12 @@ public class UserService {
         this.loginLogDao = loginLogDao;
     }
 
+    public User findUserByUserName(String userName) {
+        return userDao.findUserByUserName(userName);
+    }
 
     public boolean hasMatchUser(String userName,String password){
+        System.out.print(userName);
         int matchCount = userDao.getMatchCount(userName,password);
         return matchCount>0;
     }
